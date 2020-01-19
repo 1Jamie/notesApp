@@ -1,2 +1,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font: 19px Helvetica, Arial; }
+
+.main{
+    visibility: visible;
+}
