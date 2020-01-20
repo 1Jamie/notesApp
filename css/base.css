@@ -4,3 +4,17 @@ body { font: 19px Helvetica, Arial; }
 .main{
     visibility: visible;
 }
+.notecolumn{
+    width: 15%;
+    float: left;
+    height: 10%;
+}
+.setshit{
+    height:80px; 
+    overflow:hidden
+}
+.notes{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}

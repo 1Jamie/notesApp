@@ -19,6 +19,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'notes',
+  password: 'password',
   port: 5432,
 });
 
@@ -50,8 +51,8 @@ function onNewUuid(uuidInfo) {
   })
 }
 
-function getNotes(username){
-  let selection = 'select * from saved_notes where username = $1'
+function getNotes(username) {
+  let selection = 'select * from saved_notes where username = $1 order by noteid desc'
   pool.query(selection, [username], (err, res) => {
     if (err) {
       console.log(err)
@@ -82,6 +83,29 @@ function onuuidauth(uuid) {
 
 }
 
+function newnote(note) {
+  console.log('new note recived');
+  let usernameQuery = 'select username, last_login from users where uuid=$1'
+  pool.query(usernameQuery, [note[3]], (err, res) => {
+    if (err) {
+      console.error(err);
+    } else {
+      let username01 = res.rows[0].username
+      console.log(note)
+      console.log(res)
+      let lastcheck = timestuffs(res.rows[0].last_login)
+      if (lastcheck < 30) {
+        let addNoteQuery = `insert into saved_notes (username, note, created, checked, connection) values ($1, $2, $4, 'f', $3)`
+        console.log('seems to have worked', addNoteQuery, [username01, note[0], note[1], note[2]] )
+        pool.query(addNoteQuery, [username01, note[0], note[1], note[2]])
+      }
+      else{
+        console.warn('user has not been active in the last 30 minutes and has attempted to save a new comment')
+      }
+    }
+  })
+}
+
 function onsignin(signinfo) {
   console.log('sign in attempt ' + signinfo)
   const text = 'select * from users where password=$2 and username=$1'
@@ -110,6 +134,7 @@ io.sockets.on('connection', (socket) => {
   socket.on('uuidauth', onuuidauth);
   socket.on('newuuid', onNewUuid);
   socket.on('getNotes', getNotes);
+  socket.on('newNote', newnote)
 });
 
 

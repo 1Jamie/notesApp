@@ -10,9 +10,11 @@ if ($.cookie('uuid')) {
 
 //this is gonna handle the login once the button is clicked
 function login() {
+  event.preventDefault()
   info = [$('#userName').val(), $('#password').val()]
   var socket = io.connect('localhost:8089');
   console.log('button clicked')
+  console.log(info)
   socket.emit('signIn', info);
   auth()
   return info;
@@ -28,9 +30,7 @@ function auth() {
     }
     if ((conInfo[0] === true && info[0] == conInfo[1]) || (conInfo[0] === true && conInfo[2] === true)) {
       console.log(conInfo)
-      $('#userName').remove()
-      $('#password').remove()
-      $('#login_Register').remove()
+      $('#logContainer').remove()
       if (conInfo[2] != true) {
         let uuid = create_UUID();
         let uuidInfo = [info[0], info[1], uuid]
@@ -61,23 +61,55 @@ function create_UUID() {
   return uuid;
 }
 
+function newcomment(){
+  //event.preventDefault();
+  var datetime = new Date().toLocaleString();
+  let sendinfo = [$('#newNote').val(), $('#topic').val(), datetime, $.cookie('uuid')]
+  console.log(sendinfo)
+  socket.emit('newNote', sendinfo);
+  }
+
+
+function stopedTyping(){
+  if ($(this).val() == '' || $('#topic').val() == '') {
+    $('#saving').attr('disabled', true);
+} else {
+    $('#saving').prop('disabled', false);
+}
+}
+
 function loadnotes(notes) {
   //let note = notes[1].rows[0].note
   console.log(notes);
+  const $loggedInAs = (
+    $(`<p id="name" style='display: inline-block;' class='w3-pannel w3-blue w3-card-4 w3-padding w3-teal'>`)
+    .data('name', notes[0].rows[0].username)
+    .text(`Logged in as ${notes[0].rows[0].username}`)
+  );
+  $('#main').append(`<div id='loggedin'></div>`)
+  $('#loggedin').append($loggedInAs)
+  $('#main').append(`<br>`)
   $('#main').append(`<table id='notes' class = 'w3-contianer w3-border w3-teal'> </table>`)
   $('#notes').append(`<tr id='noteIds'><td id='idlabel'>ID</td></tr>`)
   $('#notes').append(`<tr id='noteTimes'><td id="timeLabel">Time</td></tr>`)
   $('#notes').append(`<tr id='noteItself'><td id="noteITself">Note</td></tr>`)
   notes[0].rows.forEach(element => {
     console.log(element);
-    $('#noteIds').append(`<td class='w3-padding' id=${element.noteid}>${element.noteid}</td>`)
-    $('#noteTimes').append(`<td class='w3-padding' id='time${element.created}'>${element.created}</td>`)
-    $('#noteItself').append(`<td class='w3-padding' id='noteItself${element.note}'>${element.note}</td>`)
+    $('#noteIds').append(`<td class='w3-padding w3-column notecolumn' id=${element.noteid}>${element.noteid}</td>`)
+    $('#noteTimes').append(`<td class='w3-padding w3-column notecolumn' id='time${element.created}'>${element.created}</td>`)
+    $('#noteItself').append(`<td class='w3-padding w3-column notecolumn' id='noteItself${element.note}'><div class='setshit'>${element.note}</div></td>`)
   });
+  $('#main').append(`<br><form id='note-taking' class='w3-container w3-light-grey'</form>`)
+  $('#note-taking').append(`<label>topic/case</lable>`)
+  $('#note-taking').append(`<input style='height:50%' class='w3-input w3-padding w3-border w3-large-round' id='topic' type='text'></input>`)
+  $('#note-taking').append(`<label>note</lable>`)
+  $('#note-taking').append(`<textarea style='height: 50%' rows='6' class='w3-input w3-padding w3-border w3-large-round' id='newNote' type='text'></textarea>`)
+  $('#note-taking').append(`<button disabled='true' id='saving' class='w3-button w3-border w3-large-round'>save</button>`)
+  $('#newNote').keydown(stopedTyping);
+  $('#saving').click(newcomment)
 }
 
 //this is just the click event, not sure where i wanna put it
 $(document).ready(function () {
-  $('#login_Register').click(login)
-  let button = $('#login_Register')
+  $('#login').click(login)
 })

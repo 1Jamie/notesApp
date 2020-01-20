@@ -12,13 +12,17 @@
 </head>
 
 <body>
-  <div class="n_log_in" id="loginBox">
-    <input class="logins" type="text" id="userName" placeholder="Username..." /><br>
-    <input class="logins" type="password" id="password" placeholder="Password..." /><br>
-    <button class="loginBtn" id="login_Register">Login / Register</button>
+  <div id='logContainer' style="margin-left: 30%; margin-top: 10%; ">
+  <form class="w3-container w3-round-large w3-teal w3-padding" style='margin: auto; display: inline-block; width: 40%' id="loginBox">
+    <h2>Please login</h2>
+    <label>Username</label>
+    <input class="w3-input w3-border w3-round-large" type="text" id="userName" placeholder="Username..." /><br>
+    <label>Password</label>
+    <input class="w3-input w3-border w3-round-large" type="password" id="password" placeholder="Password..." /><br>
+    <button class="w3-button w3-light-grey w3-round-large" id="login">Login</button>
+    </form>
+  </div>
     <div id="main">
     </div>
-  </div>
-  </div>
 </body>
 </html>
