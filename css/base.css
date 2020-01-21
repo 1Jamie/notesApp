@@ -4,17 +4,30 @@ body { font: 19px Helvetica, Arial; }
 .main{
     visibility: visible;
 }
-.notecolumn{
-    width: 15%;
-    float: left;
-    height: 10%;
-}
-.setshit{
-    height:80px; 
+.noterows{
+    max-height:40px; 
     overflow:hidden
 }
-.notes{
+.idrows{
+    width: 250px;
+    height: 40px
+}
+.timerows{
+    width: 250px;
+    height: 40px
+}
+.setshit{
+    width: 170px;
+    white-space: normal;
+    height: 110px;
+}
+.notesDiv{
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
+}
+.notes{
+    word-wrap: normal
+}
+.noterows{
+    white-space: normal;
 }

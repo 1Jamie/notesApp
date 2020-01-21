@@ -89,15 +89,16 @@ function loadnotes(notes) {
   $('#main').append(`<div id='loggedin'></div>`)
   $('#loggedin').append($loggedInAs)
   $('#main').append(`<br>`)
-  $('#main').append(`<table id='notes' class = 'w3-contianer w3-border w3-teal'> </table>`)
-  $('#notes').append(`<tr id='noteIds'><td id='idlabel'>ID</td></tr>`)
-  $('#notes').append(`<tr id='noteTimes'><td id="timeLabel">Time</td></tr>`)
-  $('#notes').append(`<tr id='noteItself'><td id="noteITself">Note</td></tr>`)
+  $('#main').append(`<div id='notesDiv' class='notesDiv'></div>`)
+  $('#notesDiv').append(`<table id='notes' class = 'w3-border w3-teal' class="notesTable"> </table>`)
+  $('#notes').append(`<tr id='noteIds' class="idrows"><td id='idlabel' class="idrows">ID</td></tr>`)
+  $('#notes').append(`<tr id='noteTimes' class="timerows"><td id="timeLabel" class="timerows">Time</td></tr>`)
+  $('#notes').append(`<tr id='noteItself' class="noterows"><td id="noteITself" class="noterows">Note</td></tr>`)
   notes[0].rows.forEach(element => {
     console.log(element);
-    $('#noteIds').append(`<td class='w3-padding w3-column notecolumn' id=${element.noteid}>${element.noteid}</td>`)
-    $('#noteTimes').append(`<td class='w3-padding w3-column notecolumn' id='time${element.created}'>${element.created}</td>`)
-    $('#noteItself').append(`<td class='w3-padding w3-column notecolumn' id='noteItself${element.note}'><div class='setshit'>${element.note}</div></td>`)
+    $('#noteIds').append(`<td class='w3-padding w3-column idrows' id=${element.noteid}>${element.noteid}</td>`)
+    $('#noteTimes').append(`<td class='w3-padding w3-column timerows' id='time${element.created}'>${element.created}</td>`)
+    $('#noteItself').append(`<td class='w3-padding noterows' id='noteItself${element.note}'><div class='setshit'>${element.note}</div></td>`)
   });
   $('#main').append(`<br><form id='note-taking' class='w3-container w3-light-grey'</form>`)
   $('#note-taking').append(`<label>topic/case</lable>`)
