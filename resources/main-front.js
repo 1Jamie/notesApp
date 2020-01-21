@@ -1,5 +1,5 @@
 // make some vars here so they dont come back as not existing
-let info;
+let info = null;
 
 // setup our uuid generator
 function create_UUID() {
