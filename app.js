@@ -69,7 +69,7 @@ function deleteNote(theNote) {
   pool.query(selection, [theNote[1]], (err, res) => {
     console.log(`note${theNote[0]} deleted by ${res.rows[0].username}`);
     const lastcheck = timestuffs(res.rows[0].last_login);
-    if (lastcheck < 30) {
+    if (lastcheck < 240) {
       // console.log(`Note ${theNote[0]} Deleted`)
       pool.query('Delete from saved_notes where noteid=$1', [theNote[0]]);
     } else {
@@ -88,7 +88,7 @@ function onuuidauth(uuid) {
     } else {
       const lasttime = timestuffs(res.rows[0].last_login);
       console.log(lasttime);
-      if (lasttime < 30) {
+      if (lasttime < 240) {
         const sendinfo = [true, res.rows[0].username, true];
         pool.query('update users set last_login = now() where uuid = $1', [uuid]);
         io.emit('authEmit', sendinfo);
@@ -108,12 +108,12 @@ function newnote(note) {
       //console.log(note);
       //console.log(res);
       const lastcheck = timestuffs(res.rows[0].last_login);
-      if (lastcheck < 30) {
+      if (lastcheck < 240) {
         const addNoteQuery = 'insert into saved_notes (username, note, created, checked, connection) values ($1, $2, $4, \'f\', $3)';
         //console.log('seems to have worked', addNoteQuery, [username01, note[0], note[1], note[2]]);
         pool.query(addNoteQuery, [username01, note[0], note[1], note[2]]);
       } else {
-        console.warn('user has not been active in the last 30 minutes and has attempted to save a new comment');
+        console.warn('user has not been active in the last four hours and has attempted to save a new comment');
       }
     }
   });
