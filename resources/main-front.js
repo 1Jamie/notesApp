@@ -106,8 +106,8 @@ function loadnotes(notes) {
   console.log(notes);
   const $loggedInAs = (
     $('<p id="name" style=\'display: inline-block;\' class=\'w3-pannel w3-blue w3-card-4 w3-padding w3-teal\'>')
-      .data('name', notes[0].rows[0].username)
-      .text(`Logged in as ${notes[0].rows[0].username}`)
+      .data('name', notes[1])
+      .text(`Logged in as ${notes[1]}`)
   );
   $('#main').append('<div id=\'loggedin\'><form><button id="logout" style="float: right" class="w3-button w3-round-large">Log Out</button></div></form>');
   $('#logout').click(function(){

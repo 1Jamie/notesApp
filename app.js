@@ -57,9 +57,9 @@ function getNotes(username) {
     if (err) {
       console.log(err);
     } else {
-      console.log(`sending notes for ${username}`);
-      const notesend = [res, username];
-      io.emit('noteSend', notesend);
+        console.log(`sending notes for ${username}`);
+        const notesend = [res, username];
+        io.emit('noteSend', notesend);
     }
   });
 }
